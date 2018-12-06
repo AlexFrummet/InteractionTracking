@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block main_content %}
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Dateien</h2>
+                <div id="test-drag" class="draggable">
+                    <img class="word-logo" alt="Word Image" src="{% static 'assets/word.png' %}" draggable="false">
+                    <span>Rom</span>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <h2>Explorer</h2>
+                <div id="generate_jstree">
+                    <ul>
+                        <li class="droppable">Verzeichnis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        $(function () {
+
+
+        });
+    </script>
+    <script src="{% static "js/Main.js" %}"></script>
+    <script src="{% static "js/Controller.js" %}"></script>7
+    <script src="{% static "js/View.js" %}"></script>7
+    <script>App.Main.init();</script>
+
+{% endblock %}
+{% block footer_content %}
+    <div>Icons made by <a href="https://www.flaticon.com/authors/icomoon" title="Icomoon">Icomoon</a> from <a
+            href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a
+            href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0
+        BY</a>
+    </div>
+{% endblock %}

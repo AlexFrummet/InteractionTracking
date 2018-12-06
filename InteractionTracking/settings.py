@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'interaction_tracking.apps.InteractionTrackingConfig',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
