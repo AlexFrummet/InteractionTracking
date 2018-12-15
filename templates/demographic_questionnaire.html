@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
 {% block main_content %}
-    <div>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input class="btn btn-info" role="button" type="submit" value="Speichern"/>
-        </form>
+
+    <div class="container">
+        <div class="row">
+            <div class="md-6">
+                <div>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input class="btn btn-info" role="button" type="submit" value="Speichern"/>
+                    </form>
+                </div>
+                <a href={% url 'generate_hierarchy' %}>weiter</a>
+            </div>
+        </div>
     </div>
-    <a href={% url 'generate_hierarchy' %}>weiter</a>
 {% endblock %}

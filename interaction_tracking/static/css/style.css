@@ -2,3 +2,11 @@ img.word-logo {
     height: 20px;
     width: auto;
 }
+
+.draggable {
+    display: inline-block;
+}
+
+li#j1_1 {
+    height:24px;
+}

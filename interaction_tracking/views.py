@@ -26,3 +26,8 @@ class DemographicQuestionnaireView(View):
 class GenerateHierarchyView(View):
     def get(self, request):
         return render(request, 'generate_hierarchy.html')
+
+
+class BrowseSearchTaskView(View):
+    def get(self, request):
+        return render(request, 'browse_search_task.html')
