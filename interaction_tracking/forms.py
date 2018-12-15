@@ -1,6 +1,8 @@
 from django import forms
 
-from .models import Testperson, PretaskQuestionnaire
+from .models import Testperson, PretaskQuestionnaire, PosttaskQuestionnaire
+
+LIKERT_CHOICES = (('1', 'First'), ('2', 'Second'), ('3', 'Third'), ('4', 'Four'), ('5', 'Five'))
 
 
 class TestpersonForm(forms.ModelForm):
@@ -15,9 +17,16 @@ class TestpersonForm(forms.ModelForm):
 
 
 class PretaskForm(forms.ModelForm):
-    LIKERT_CHOICES = (('1', 'First',), ('2', 'Second',))
     selected_answer = forms.ChoiceField(widget=forms.RadioSelect, choices=LIKERT_CHOICES)
 
     class Meta:
         model = PretaskQuestionnaire
-        fields = ('selected_answer', )
+        fields = ('selected_answer',)
+
+
+class PosttaskForm(forms.ModelForm):
+    selected_answer = forms.ChoiceField(widget=forms.RadioSelect, choices=LIKERT_CHOICES)
+
+    class Meta:
+        model = PosttaskQuestionnaire
+        fields = ('selected_answer',)

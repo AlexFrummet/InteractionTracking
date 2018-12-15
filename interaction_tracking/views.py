@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.templatetags.static import static
 from django.views import View
 from .models import Testperson
-from .forms import TestpersonForm, PretaskForm
+from .forms import TestpersonForm, PretaskForm, PosttaskForm
 
 
 class IndexView(View):
@@ -53,3 +53,20 @@ class PreTaskQuestionnaireView(View):
         if pretask_form.is_valid():
             pretask_form.save()
             return redirect('browse_search')
+
+
+class PostTaskQuestionnaireView(View):
+    def get(self, request):
+        posttask_form = PosttaskForm()
+        return render(request, 'posttask.html', {'form': posttask_form, })
+
+    def post(self, request):
+        posttask_form = PosttaskForm(request.POST)
+        if posttask_form.is_valid():
+            posttask_form.save()
+            return redirect('browse_search')
+
+
+class ThankYouView(View):
+    def get(self, request):
+        return render(request, 'thank_you.html')
