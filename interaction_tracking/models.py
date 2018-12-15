@@ -127,6 +127,16 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
+class PretaskQuestionnaire(models.Model):
+
+    pretask = models.AutoField(primary_key=True, unique=True)
+    selected_answer = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'pretask_questionnaire'
+
+
 class Testperson(models.Model):
     MALE = 'M'
     FEMALE = 'F'

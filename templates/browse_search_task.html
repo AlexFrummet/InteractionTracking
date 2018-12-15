@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+
 {% block main_content %}
     <div class="container">
         <div class="row">
             <div class="col-md-6">
                 <h2>Browse</h2>
+                <div id="tree">
+
+                </div>
             </div>
             <div class="col-md-6">
                 <h2>Search</h2>
@@ -11,5 +16,13 @@
         </div>
 
     </div>
+    <script>
+
+        let sample_tree = JSON.parse({{ tree | safe }});
+        $("#tree").jstree({
+            'core': sample_tree,
+        });
+
+    </script>
 
 {% endblock %}
