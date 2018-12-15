@@ -1,4 +1,6 @@
 import json
+import os
+import random
 
 from django.shortcuts import render, redirect
 
@@ -33,7 +35,10 @@ class GenerateHierarchyView(View):
 
 class BrowseSearchTaskView(View):
     def get(self, request):
-        json_data = open('interaction_tracking/static/trees/sample_tree.json').read()
+        tree_file_path = 'interaction_tracking/static/trees/'
+        random_file = random.choice(os.listdir(tree_file_path))
+        tree_file_path = 'interaction_tracking/static/trees/' + random_file
+        json_data = open(tree_file_path).read()
         json_tree = json.dumps(json_data)
         return render(request, 'browse_search_task.html', {'tree': json_tree})
 
