@@ -13,16 +13,94 @@
             <div class="col-md-6">
                 <h2>Search</h2>
                 <!-- https://docs.djangoproject.com/en/2.1/ref/contrib/postgres/search/ -->
+                {% include 'search_task.html' %}
+                <div id="content_view">
+
+                </div>
             </div>
             <a href="{% url 'thank_you' %}">Weiter</a>
         </div>
     </div>
     <script>
+        $(document).ready(function () {
+                let sample_tree = JSON.parse({{ tree | safe }});
+                $("#tree").jstree({
+                    'core': sample_tree,
+                });
 
-        let sample_tree = JSON.parse({{ tree | safe }});
-        $("#tree").jstree({
-            'core': sample_tree,
-        });
+                function generate_display_table(results) {
+                    let result_html = '';
+                    results.forEach(function (result) {
+                        let title = '<h3>' + result.title + '</h3>';
+                        let content = '<p>' + result.content + '</p>';
+                        result_html += '<div>' + title + content + '</div>';
+                    });
+                    return result_html;
+                }
+
+                function generate_result_table_html(data) {
+                    var result_html = '';
+                    data.forEach(function (entry) {
+
+                        var entry_header = '<tr class=\'clickable-row\' data-href=\"' + url_string + '\">\n';
+                        var ortsnameid_cell = '<td>' + entry.ortsnameid + '</td>\n';
+                        var dername_cell = '<td>' + entry.dername + '</td>\n';
+                        var gemeinde_cell = '<td>' + entry.gemeinde + '</td>\n';
+                        var altgemeinde_cell = '<td>' + entry.altgemeinde + '</td>\n';
+                        var landkreis_cell = '<td>' + entry.landkreis + '</td>\n';
+                        var altlandkreis_cell = '<td>' + entry.altlandkreis + '</td>\n';
+                        var land_cell = '<td>' + entry.land + '</td>\n';
+                        var staat_cell = '<td>' + entry.staat + '</td>\n';
+                        var x_cell = '<td>' + entry.x + '</td>\n';
+                        var y_cell = '<td>' + entry.y + '</td>\n';
+                        var entry_footer = '</tr>\n';
+                        result_html += entry_header + ortsnameid_cell + dername_cell + gemeinde_cell + altgemeinde_cell + landkreis_cell + altlandkreis_cell + land_cell + staat_cell + x_cell + y_cell + entry_footer;
+                    });
+                    return result_html;
+                }
+
+                function onArticleTitleClick(event) {
+                    console.log(event.target.parentNode.id);
+                    $.ajax({
+                        url: "{% url 'get_article_data' %}",
+                        type: "GET",
+                        data: {'title_id': event.target.parentNode.id},
+                        dataType: 'json',
+                        success: function (data) {
+                            let result_table_html = generate_display_table(data.results);
+                            $('#content_view').append(result_table_html);
+                        }
+                    });
+                }
+
+                function show_results() {
+                    $.ajax({
+                        url: "{% url 'get_search_results' %}",
+                        type: "GET",
+                        data: {'schlagwort': $('#id_content').val()},
+                        dataType: 'json',
+                        success: function (data) {
+                            let result_table_html = generate_result_table_html(data.results);
+                            // aktueller Stand: URL in search_task geändert
+                            /* TODO:
+                            * umwandlung in ajax abschließen, den teil in search_task und Browse search view löschen,
+                            * der für das GET (nicht ajax) zuständig war...
+                            * */
+                            $('#content_view').append(result_table_html);
+                        }
+                    });
+                }
+
+                $(".clickable-row").click(onArticleTitleClick);
+
+                $("#searchform").on('submit', function (event) {
+                    event.preventDefault();
+                    console.log("form submitted!");
+                    show_results();
+                });
+            }
+        );
+
 
     </script>
 

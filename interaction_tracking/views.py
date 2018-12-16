@@ -2,13 +2,14 @@ import json
 import os
 import random
 
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.templatetags.static import static
 from django.views import View
-from .models import Testperson
-from .forms import TestpersonForm, PretaskForm, PosttaskForm
+from .models import Testperson, Documents
+from .forms import TestpersonForm, PretaskForm, PosttaskForm, SearchForm
 
 
 class IndexView(View):
@@ -40,8 +41,28 @@ class BrowseSearchTaskView(View):
         tree_file_path = 'interaction_tracking/static/trees/' + random_file
         json_data = open(tree_file_path).read()
         json_tree = json.dumps(json_data)
-        return render(request, 'browse_search_task.html', {'tree': json_tree})
+        search_form = SearchForm()
+        context = {'tree': json_tree, 'search_form': search_form, }
+        if len(request.GET) != 0:
+            self.show_results(request, context, search_form)
+        return render(request, 'browse_search_task.html', context)
 
+    def show_results(self, request, context, search_form):
+        results = Documents.objects.all()
+        schlagwort = (request.GET['content'])
+        search_form['content'].initial = schlagwort
+        results = results.filter(
+            content__icontains=schlagwort)  # case-insensitive full-text search --> checks if document contains word
+        context['results'] = results
+
+
+def get_search_results(request):
+    articles = Documents.objects.all()
+    content = request.GET['title_id']
+    articles = articles.filter(title_id=content)
+    articles = list(articles.values('title_id', 'title', 'content'))
+    context = {'results': articles}
+    return JsonResponse(context)
 
 class PreTaskQuestionnaireView(View):
     def get(self, request):
@@ -67,6 +88,30 @@ class PostTaskQuestionnaireView(View):
             return redirect('browse_search')
 
 
+"""class SearchView(View):
+    def get(self, request):
+        search_form = SearchForm()
+        context = {'search_form': search_form, }
+        if len(request.GET) != 0:
+            self.show_results(request, context, search_form)
+        return render(request, 'search_task.html', context)
+
+    def show_results(self, request, context, search_form):
+        results = Documents.objects.all()
+        schlagwort = (request.GET['content'])
+        results = results.filter(content=schlagwort)
+        context['results'] = results"""
+
+
 class ThankYouView(View):
     def get(self, request):
         return render(request, 'thank_you.html')
+
+
+def get_article_data(request):
+    articles = Documents.objects.all()
+    content = request.GET['title_id']
+    articles = articles.filter(title_id=content)
+    articles = list(articles.values('title_id', 'title', 'content'))
+    context = {'results': articles}
+    return JsonResponse(context)

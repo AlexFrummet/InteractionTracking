@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Testperson, PretaskQuestionnaire, PosttaskQuestionnaire
+from .models import Testperson, PretaskQuestionnaire, PosttaskQuestionnaire, Documents
 
 LIKERT_CHOICES = (('1', 'First'), ('2', 'Second'), ('3', 'Third'), ('4', 'Four'), ('5', 'Five'))
 
@@ -30,3 +30,11 @@ class PosttaskForm(forms.ModelForm):
     class Meta:
         model = PosttaskQuestionnaire
         fields = ('selected_answer',)
+
+
+class SearchForm(forms.ModelForm):
+    content = forms.CharField(label='Schlagwort', required=True)
+
+    class Meta:
+        model = Documents
+        fields = ('content',)

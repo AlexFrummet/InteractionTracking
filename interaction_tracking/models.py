@@ -127,6 +127,16 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
+class Documents(models.Model):
+    title_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'documents'
+
+
 class PosttaskQuestionnaire(models.Model):
     posttask_id = models.AutoField(primary_key=True, unique=True)
     selected_answer = models.IntegerField(blank=True, null=True)

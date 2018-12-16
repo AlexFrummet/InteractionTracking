@@ -1,0 +1,26 @@
+<form class="form-vertical" id="search_form" action="{% url 'get_search_results' %}" method="get"
+      accept-charset="utf-8">
+    {{ search_form.as_p }}
+    <input name="full_text_search" class="btn btn-success" type="submit" value="Suchen">
+</form>
+{% if '/interaction_tracking/get_search_results' in request.get_full_path %}
+    <h3>Ergebnisse</h3>
+    {% if results|length == 0 %}
+        <div>Keine Ergebnisse gefunden.</div>
+    {% else %}
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>Article Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for article in results %}
+                <tr class='clickable-row' id="{{ article.title_id }}">
+                    <td>{{ article.title }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endif %}

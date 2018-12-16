@@ -11,4 +11,6 @@ urlpatterns = [
     re_path(r'^browse_search_task$', views.BrowseSearchTaskView.as_view(), name='browse_search'),
     re_path(r'^posttask_questionnaire$', views.PostTaskQuestionnaireView.as_view(), name='posttask_questionnaire'),
     re_path(r'^thankyou$', views.ThankYouView.as_view(), name='thank_you'),
+    re_path(r'^get_article_data$', views.get_article_data, name='get_article_data'),
+    re_path(r'^get_search_results$', views.get_search_results, name='get_search_results'),
 ]
