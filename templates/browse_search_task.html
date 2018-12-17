@@ -39,22 +39,15 @@
                 }
 
                 function generate_result_table_html(data) {
-                    var result_html = '';
-                    data.forEach(function (entry) {
+                    let result_html = '';
+                    data.forEach(function (article) {
 
-                        var entry_header = '<tr class=\'clickable-row\' data-href=\"' + url_string + '\">\n';
-                        var ortsnameid_cell = '<td>' + entry.ortsnameid + '</td>\n';
-                        var dername_cell = '<td>' + entry.dername + '</td>\n';
-                        var gemeinde_cell = '<td>' + entry.gemeinde + '</td>\n';
-                        var altgemeinde_cell = '<td>' + entry.altgemeinde + '</td>\n';
-                        var landkreis_cell = '<td>' + entry.landkreis + '</td>\n';
-                        var altlandkreis_cell = '<td>' + entry.altlandkreis + '</td>\n';
-                        var land_cell = '<td>' + entry.land + '</td>\n';
-                        var staat_cell = '<td>' + entry.staat + '</td>\n';
-                        var x_cell = '<td>' + entry.x + '</td>\n';
-                        var y_cell = '<td>' + entry.y + '</td>\n';
-                        var entry_footer = '</tr>\n';
-                        result_html += entry_header + ortsnameid_cell + dername_cell + gemeinde_cell + altgemeinde_cell + landkreis_cell + altlandkreis_cell + land_cell + staat_cell + x_cell + y_cell + entry_footer;
+                        let table_header = '<table class="table table-bordered table-hover"><thead><tr><th>Article Name</th></tr></thead><tbody>';
+                        let article_entry_header = '<tr class=\"clickable-row\" id=\"' + article.title_id + '\">\n';
+                        let article_title_cell = '<td>' + article.title + '</td>\n';
+                        let article_entry_footer = '</tr>\n';
+                        let table_footer = '</tbody></table>';
+                        result_html += table_header + article_entry_header + article_title_cell + article_entry_footer + table_footer;
                     });
                     return result_html;
                 }
@@ -86,14 +79,19 @@
                             * umwandlung in ajax abschließen, den teil in search_task und Browse search view löschen,
                             * der für das GET (nicht ajax) zuständig war...
                             * */
+                            console.log(result_table_html)
                             $('#content_view').append(result_table_html);
+                            $(".clickable-row").click(onArticleTitleClick);
+
+                        },
+                        error: function (xhr, errmsg, err) {
+                            console.log("ERROR");
                         }
                     });
                 }
 
-                $(".clickable-row").click(onArticleTitleClick);
 
-                $("#searchform").on('submit', function (event) {
+                $("#search_form").on('submit', function (event) {
                     event.preventDefault();
                     console.log("form submitted!");
                     show_results();

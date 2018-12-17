@@ -43,26 +43,17 @@ class BrowseSearchTaskView(View):
         json_tree = json.dumps(json_data)
         search_form = SearchForm()
         context = {'tree': json_tree, 'search_form': search_form, }
-        if len(request.GET) != 0:
-            self.show_results(request, context, search_form)
         return render(request, 'browse_search_task.html', context)
-
-    def show_results(self, request, context, search_form):
-        results = Documents.objects.all()
-        schlagwort = (request.GET['content'])
-        search_form['content'].initial = schlagwort
-        results = results.filter(
-            content__icontains=schlagwort)  # case-insensitive full-text search --> checks if document contains word
-        context['results'] = results
 
 
 def get_search_results(request):
     articles = Documents.objects.all()
-    content = request.GET['title_id']
-    articles = articles.filter(title_id=content)
+    schlagwort = request.GET['schlagwort']
+    articles = articles.filter(content__icontains=schlagwort)
     articles = list(articles.values('title_id', 'title', 'content'))
     context = {'results': articles}
     return JsonResponse(context)
+
 
 class PreTaskQuestionnaireView(View):
     def get(self, request):
