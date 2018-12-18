@@ -18,18 +18,20 @@ class TestpersonForm(forms.ModelForm):
 
 class PretaskForm(forms.ModelForm):
     selected_answer = forms.ChoiceField(widget=forms.RadioSelect, choices=LIKERT_CHOICES)
+    testperson = forms.IntegerField(widget=forms.HiddenInput, required=False)
 
     class Meta:
         model = PretaskQuestionnaire
-        fields = ('selected_answer',)
+        fields = ('selected_answer', 'testperson')
 
 
 class PosttaskForm(forms.ModelForm):
     selected_answer = forms.ChoiceField(widget=forms.RadioSelect, choices=LIKERT_CHOICES)
+    testperson = forms.IntegerField(widget=forms.HiddenInput, required=False)
 
     class Meta:
         model = PosttaskQuestionnaire
-        fields = ('selected_answer',)
+        fields = ('selected_answer', 'testperson')
 
 
 class SearchForm(forms.ModelForm):

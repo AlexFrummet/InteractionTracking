@@ -18,7 +18,7 @@
 
                 </div>
             </div>
-            <a href="{% url 'thank_you' %}">Weiter</a>
+            <a href="{% url 'posttask_questionnaire' testperson_id %}">Weiter</a>
         </div>
     </div>
     <script>
@@ -62,7 +62,11 @@
                         success: function (data) {
                             let result_table_html = generate_display_table(data.results);
                             $('#content_view').append(result_table_html);
+                        },
+                        error: function (xhr, errmsg, err) {
+                            console.log("ERROR");
                         }
+
                     });
                 }
 
@@ -74,12 +78,6 @@
                         dataType: 'json',
                         success: function (data) {
                             let result_table_html = generate_result_table_html(data.results);
-                            // aktueller Stand: URL in search_task geändert
-                            /* TODO:
-                            * umwandlung in ajax abschließen, den teil in search_task und Browse search view löschen,
-                            * der für das GET (nicht ajax) zuständig war...
-                            * */
-                            console.log(result_table_html)
                             $('#content_view').append(result_table_html);
                             $(".clickable-row").click(onArticleTitleClick);
 
@@ -98,8 +96,6 @@
                 });
             }
         );
-
-
     </script>
 
 {% endblock %}

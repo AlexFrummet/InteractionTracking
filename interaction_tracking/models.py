@@ -140,6 +140,8 @@ class Documents(models.Model):
 class PosttaskQuestionnaire(models.Model):
     posttask_id = models.AutoField(primary_key=True, unique=True)
     selected_answer = models.IntegerField(blank=True, null=True)
+    testperson = models.ForeignKey('Testperson', models.DO_NOTHING, blank=True, null=True, db_column='testperson_id',
+                                   related_name='posttask_testperson')
 
     class Meta:
         managed = False
@@ -149,6 +151,8 @@ class PosttaskQuestionnaire(models.Model):
 class PretaskQuestionnaire(models.Model):
     pretask = models.AutoField(primary_key=True, unique=True)
     selected_answer = models.IntegerField(blank=True, null=True)
+    testperson = models.ForeignKey('Testperson', models.DO_NOTHING, blank=True, null=True, db_column='testperson_id',
+                                   related_name='pretask_testperson')
 
     class Meta:
         managed = False
