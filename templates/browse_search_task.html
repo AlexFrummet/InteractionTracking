@@ -97,5 +97,14 @@
             }
         );
     </script>
+    <script src="{% static "js/Logger.js" %}"></script>
+    <script>
+
+        //https://stackoverflow.com/questions/11452205/how-can-i-tell-if-jstree-has-fully-loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            App.Logger.init({{ testperson_id }}, {{ pretask_id }}, document.getElementsByClassName("jstree-node"));
+        });
+
+    </script>
 
 {% endblock %}

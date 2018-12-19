@@ -35,14 +35,15 @@ class GenerateHierarchyView(View):
 
 
 class BrowseSearchTaskView(View):
-    def get(self, request, testperson_id):
+    def get(self, request, testperson_id, pretask_id):
         tree_file_path = 'interaction_tracking/static/trees/'
         random_file = random.choice(os.listdir(tree_file_path))
         tree_file_path = 'interaction_tracking/static/trees/' + random_file
         json_data = open(tree_file_path).read()
         json_tree = json.dumps(json_data)
         search_form = SearchForm()
-        context = {'tree': json_tree, 'search_form': search_form, 'testperson_id': testperson_id}
+        context = {'tree': json_tree, 'search_form': search_form, 'testperson_id': testperson_id,
+                   'pretask_id': pretask_id}
         return render(request, 'browse_search_task.html', context)
 
 
@@ -68,7 +69,7 @@ class PreTaskQuestionnaireView(View):
             pretask_instance = pretask_form.save(commit=False)
             pretask_instance.testperson = testperson_instance
             pretask_instance.save()
-            return redirect('browse_search', testperson_id)
+            return redirect('browse_search', testperson_id, pretask_instance.pk)
         else:
             print(pretask_form.errors)
 
