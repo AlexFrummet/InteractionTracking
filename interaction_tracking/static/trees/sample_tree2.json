@@ -9,9 +9,10 @@
       },
       "children": [
         {
-          "text": "Child 1"
-        },
-        "Child 2"
+          "text": "Rom",
+          "id": 1,
+          "icon": false
+        }
       ]
     }
   ]

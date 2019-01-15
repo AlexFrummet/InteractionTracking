@@ -10,3 +10,8 @@ img.word-logo {
 li#j1_1 {
     height:24px;
 }
+
+.droppable {
+    /*z-index: -1;*/
+    position: relative;
+}

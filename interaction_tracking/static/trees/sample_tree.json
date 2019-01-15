@@ -9,9 +9,10 @@
       },
       "children": [
         {
-          "text": "Child 1"
-        },
-        "Child 2"
+          "text": "Regensburg",
+          "id": 2,
+          "icon": false
+        }
       ]
     }
   ]

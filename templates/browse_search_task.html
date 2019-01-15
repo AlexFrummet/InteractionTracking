@@ -14,8 +14,29 @@
                 <h2>Search</h2>
                 <!-- https://docs.djangoproject.com/en/2.1/ref/contrib/postgres/search/ -->
                 {% include 'search_task.html' %}
-                <div id="content_view">
+                <div id="search_result_view">
 
+                </div>
+                <div id="search_detail_view">
+
+                </div>
+            </div>
+            <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title"></h3>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Schließen</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <a href="{% url 'posttask_questionnaire' testperson_id %}">Weiter</a>
@@ -23,6 +44,8 @@
     </div>
     <script>
         $(document).ready(function () {
+
+
                 let sample_tree = JSON.parse({{ tree | safe }});
                 $("#tree").jstree({
                     'core': sample_tree,
@@ -61,7 +84,7 @@
                         dataType: 'json',
                         success: function (data) {
                             let result_table_html = generate_display_table(data.results);
-                            $('#content_view').append(result_table_html);
+                            $('#search_detail_view').html(result_table_html);
                         },
                         error: function (xhr, errmsg, err) {
                             console.log("ERROR");
@@ -78,7 +101,8 @@
                         dataType: 'json',
                         success: function (data) {
                             let result_table_html = generate_result_table_html(data.results);
-                            $('#content_view').append(result_table_html);
+                            $("#search_detail_view").empty();
+                            $('#search_result_view').html(result_table_html);
                             $(".clickable-row").click(onArticleTitleClick);
 
                         },
@@ -94,15 +118,18 @@
                     console.log("form submitted!");
                     show_results();
                 });
+
+
             }
         );
     </script>
-    <script src="{% static "js/Logger.js" %}"></script>
+    <script src="{% static "js/BrowseSearchLogger.js" %}"></script>
     <script>
 
         //https://stackoverflow.com/questions/11452205/how-can-i-tell-if-jstree-has-fully-loaded
         document.addEventListener('DOMContentLoaded', function () {
-            App.Logger.init({{ testperson_id }}, {{ pretask_id }}, document.getElementsByClassName("jstree-node"));
+            App.BrowseSearchLogger.init({{ testperson_id }}, {{ pretask_id }}, document.getElementsByClassName("jstree-node"), "{% url 'get_article_data' %}");
+
         });
 
     </script>

@@ -85,15 +85,18 @@ App.Controller = function (view) {
                 }
             }
         }).on('create_node.jstree', function (e, data) {
-            console.log("AFTER NEW NODE ADDED");
-            e.target.classList.add("droppable");
-            initDragAndDrop();
-            console.log(e.target);
-            if (!(data.node.id.includes("file-node"))) {
+                console.log("AFTER NEW NODE ADDED");
+                let new_element = e.target.querySelector('ul li');
+                console.log(new_element);
+                initDragAndDrop();
+                console.log(e.target);
+                console.log(data.node);
+                if (!(data.node.id.includes("file-node"))) {
 
-                createdFolders += 1;
+                    createdFolders += 1;
+                }
             }
-        }).on('rename_node.jstree', function (e, data) {
+        ).on('rename_node.jstree', function (e, data) {
             if (!(data.text === "New node")) {
                 renamedFolders += 1;
             }
@@ -102,14 +105,20 @@ App.Controller = function (view) {
         }).on('move_node.jstree', function (e, data) {
             movedFiles += 1;
         }).on('changed.jstree', function (e, data) {
+            console.log("on tree element clicked");
+            initDragAndDrop();
+            console.log(e.target);
             console.log(data.selected);
         });
     }
 
     function initDragAndDrop() {
+        console.log("INIT DRAG N DROP");
         $('.draggable').draggable({revert: "invalid"});
         $('.droppable').droppable({
             drop: function (event, ui) {
+                event.preventDefault();
+                event.stopPropagation();
                 console.log("DROP FIRED!");
                 view.addChildElement(event, ui);
                 return true; // es hilft, wenn man auf den Ordner klickt, auf den man was hinzufuegen will
@@ -120,11 +129,10 @@ App.Controller = function (view) {
     function init() {
         initJSTree();
         initDragAndDrop();
-
     }
-
 
     that.init = init;
     return that;
 
-};
+}
+;
